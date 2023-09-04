@@ -15,12 +15,12 @@ cmake_minimum_required(VERSION 3.20)
 ###################### CONSTANTS ######################################
 set (PROJECT_TYPE_EXECUTABLE          "exe")
 set (PROJECT_TYPE_STATIC_LIBRARY      "static-lib")
-set (MCPU_CORTEX_M0				      "-mcpu=cortex-m0")
-set (MCPU_CORTEX_M0PLUS				  "-mcpu=cortex-m0plus")
-set (MCPU_CORTEX_M3				      "-mcpu=cortex-m3")
-set (MCPU_CORTEX_M4				      "-mcpu=cortex-m4")
-set (MCPU_CORTEX_M7				      "-mcpu=cortex-m7")
-set (MCPU_CORTEX_M33				  "-mcpu=cortex-m33")
+set (MCPU_CORTEX_M0				            "-mcpu=cortex-m0")
+set (MCPU_CORTEX_M0PLUS				        "-mcpu=cortex-m0plus")
+set (MCPU_CORTEX_M3				            "-mcpu=cortex-m3")
+set (MCPU_CORTEX_M4				            "-mcpu=cortex-m4")
+set (MCPU_CORTEX_M7				            "-mcpu=cortex-m7")
+set (MCPU_CORTEX_M33				          "-mcpu=cortex-m33")
 set (MFPU_FPV4_SP_D16                 "-mfpu=fpv4-sp-d16")
 set (MFPU_FPV5_D16                    "-mfpu=fpv5-d16")
 set (RUNTIME_LIBRARY_REDUCED_C        "--specs=nano.specs")
@@ -33,18 +33,20 @@ set (MFLOAT_ABI_MIX                   "-mfloat-abi=softfp")
 #######################################################################
 
 ###################### VARIABLES ######################################
-set (PROJECT_NAME             "STM32F407Discovery")
-set (PROJECT_TYPE             "exe")
-set (MCPU                     "-mcpu=Cortex-M4")
-set (MFPU                     "-mfpu=fpv4-sp-d16")
-set (MFLOAT_ABI               "-mfloat-abi=hard")
-set (RUNTIME_LIBRARY          "--specs=nano.specs")
-set (RUNTIME_LIBRARY_SYSCALLS "--specs=nosys.specs")
+set (PROJECT_NAME                     "STM32F407Discovery")
+set (PROJECT_TYPE                     ${PROJECT_TYPE_STATIC_LIBRARY})
+set (MCPU                             ${MCPU_CORTEX_M4})
+set (MFPU                             ${MFPU_FPV4_SP_D16})
+set (MFLOAT_ABI                       ${MFLOAT_ABI_HARDWARE})
+set (RUNTIME_LIBRARY                  ${RUNTIME_LIBRARY_REDUCED_C})
+set (RUNTIME_LIBRARY_SYSCALLS         ${RUNTIME_LIBRARY_SYSCALLS_MINIMAL})
 
-set (PROJECT_SOURCES
+set (PROJECT_SOURCESs
 	# LIST SOURCE FILES HERE  
-  ${CMAKE_SOURCE_DIR}/App/main.c 
+  
 )
+
+set (PROJECT_MAIN_FILE ${CMAKE_SOURCE_DIR}/App/main.c )
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
@@ -123,7 +125,7 @@ project(${PROJECT_NAME})
 enable_language(ASM)
 
 if (${PROJECT_TYPE} MATCHES ${PROJECT_TYPE_EXECUTABLE})
-  add_executable(${PROJECT_NAME} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES})
+  add_executable(${PROJECT_NAME} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES} ${PROJECT_MAIN_FILE})
   # Execute post-build to print size
   add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
   COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${CMAKE_PROJECT_NAME}>)
@@ -134,7 +136,8 @@ if (${PROJECT_TYPE} MATCHES ${PROJECT_TYPE_EXECUTABLE})
   add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_PROJECT_NAME}.bin)
 elseif (${PROJECT_TYPE} MATCHES ${PROJECT_TYPE_STATIC_LIBRARY})
-  add_library(${PROJECT_NAME} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES})
+  # add_library(${PROJECT_NAME} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES}) 
+  add_subdirectory(Tests)
 endif()
 
 add_compile_definitions (${PROJECT_DEFINES})
