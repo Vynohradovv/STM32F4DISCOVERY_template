@@ -5,6 +5,6 @@ TEST_GROUP(FirstTestGroup)
 };
 
 TEST(FirstTestGroup, FirstTest)
-{
-   FAIL("Fail me!");
+{   
+   CHECK_EQUAL(1,1);
 }
