@@ -6,7 +6,8 @@ RUN apt-get update \
     && apt-get -y install ninja-build \
     && apt-get -y install gcc-arm-none-eabi \
     && apt-get -y install gdb-multiarch \
-    && apt-get -y install libnewlib-arm-none-eabi
+    && apt-get -y install libnewlib-arm-none-eabi \
+    && apt-get -y install openocd
 
 RUN git clone https://github.com/cpputest/cpputest.git ~/cpputest \
     && cd ~/cpputest \
@@ -14,3 +15,5 @@ RUN git clone https://github.com/cpputest/cpputest.git ~/cpputest \
     && cmake --build cpputest_build \
     && cd cpputest_build \
     && make install
+
+RUN ln -s /usr/bin/gdb-multiarch /usr/bin/arm-none-eabi-gdb
