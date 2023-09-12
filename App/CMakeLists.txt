@@ -8,8 +8,12 @@ set (MFLOAT_ABI                       ${MFLOAT_ABI_HARDWARE})
 set (RUNTIME_LIBRARY                  ${RUNTIME_LIBRARY_REDUCED_C})
 set (RUNTIME_LIBRARY_SYSCALLS         ${RUNTIME_LIBRARY_SYSCALLS_MINIMAL})
 
-set (PROJECT_SOURCESs
+set (PROJECT_SOURCES
 	# LIST SOURCE FILES HERE  
+  ${CMAKE_SOURCE_DIR}/App/Runtime/os_task1.c
+  ${CMAKE_SOURCE_DIR}/App/Runtime/os_task2.c
+  ${CMAKE_SOURCE_DIR}/App/Runtime/os_task3.c
+  ${CMAKE_SOURCE_DIR}/App/Runtime/os_task4.c
   
 )
 
@@ -17,43 +21,56 @@ set (PROJECT_MAIN_FILE ${CMAKE_SOURCE_DIR}/App/main.c )
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
+  ${CMAKE_SOURCE_DIR}/App/Runtime
 )
 
 set (PROJECT_CUBEMX_SOURCES
 	# LIST CUBEMX SOURCE FILES HERE  
-    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/stm32f4xx_it.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/stm32f4xx_hal_msp.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/App/usb_host.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/Target/usbh_conf.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/Target/usbh_platform.c
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/freertos.c
+    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/stm32f4xx_it.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/system_stm32f4xx.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/stm32f4xx_hal_msp.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/stm32f4xx_hal_timebase_tim.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Src/system_stm32f4xx.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.c 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c 
     ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/list.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/queue.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/tasks.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/timers.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/croutine.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c 
+    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c 
 
     ${CMAKE_SOURCE_DIR}/CubeMX/startup_stm32f407xx.s
 	)
@@ -67,16 +84,19 @@ set (PROJECT_DEFINES
     )
 
 set (PROJECT_CUBEMX_INCLUDES
-	# LIST CUBEMX INCLUDE DIRECTORIES HERE
-    ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/App 
-    ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/Target 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Core/Inc 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Inc 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Device/ST/STM32F4xx/Include 
-    ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Include
+	# LIST CUBEMX INCLUDE DIRECTORIES HERE    
+  ${CMAKE_SOURCE_DIR}/CubeMX/Core/Inc 
+  ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/App 
+  ${CMAKE_SOURCE_DIR}/CubeMX/USB_HOST/Target 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Include
+  ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Device/ST/STM32F4xx/Include 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Core/Inc 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc 
+  ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/include
+  ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
+  ${CMAKE_SOURCE_DIR}/CubeMX/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
   )
 
 set (LINKER_SCRIPT
@@ -91,7 +111,7 @@ set (LINKER_SCRIPT
 
 enable_language(ASM)
 
-add_executable(${PROJECT_NAME} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES} ${PROJECT_MAIN_FILE})
+add_executable(${PROJECT_NAME} ${PROJECT_MAIN_FILE} ${PROJECT_CUBEMX_SOURCES} ${PROJECT_SOURCES})
 # Execute post-build to print size
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD 
 COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${CMAKE_PROJECT_NAME}>)
