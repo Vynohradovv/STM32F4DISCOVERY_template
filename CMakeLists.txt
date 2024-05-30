@@ -33,6 +33,10 @@ set (MFLOAT_ABI_HARDWARE                "-mfloat-abi=hard")
 set (MFLOAT_ABI_MIX                     "-mfloat-abi=softfp")
 #######################################################################
 
+if(CMAKE_HOST_WIN32)
+    set(CMAKE_COLOR_MAKEFILE OFF)
+endif()
+
 option(PROJECT_UITTESTS "Compile the tests" OFF)
 if(PROJECT_UITTESTS)
     add_subdirectory(Tests)

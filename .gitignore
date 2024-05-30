@@ -1,4 +1,5 @@
 build
+Debug
 .settings
 .vscode/settings.json
 CubeMX/Core/Src/main.c
